@@ -88,7 +88,43 @@ def add_pet_to_customer(customer_hash, new_pet_hash)
   customer_hash[:pets].push(new_pet_hash)
 end
 
+# this one will return true/false based on provided
+# customer(hash) and wanted pet(hash also)
+def customer_can_afford_pet?(customer_hash, wanted_pet)
+  if customer_hash[:cash] >= wanted_pet[:price]
+    true
+  else
+    false
+  end
+end
 
+
+def sell_pet_to_customer(shop_hash, wanted_pet_hash, customer_hash)
+  # does the shop have the right pet?
+  if shop_hash[:pets].include?(wanted_pet_hash)
+    if customer_hash[:cash] >= wanted_pet_hash[:price]
+      customer_hash[:pets].push(wanted_pet_hash)
+      shop_hash[:admin][:pets_sold] += 1
+      customer_hash[:cash] -= wanted_pet_hash[:price]
+      shop_hash[:admin][:total_cash] += wanted_pet_hash[:price]
+    else
+      # insufficient funds
+    end
+  else
+    # pet not found
+  end
+
+end
+
+
+
+
+
+
+
+
+
+#
 
 
 
