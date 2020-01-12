@@ -98,22 +98,51 @@ def customer_can_afford_pet?(customer_hash, wanted_pet)
   end
 end
 
+# using no pre-writtent functions..
+# def sell_pet_to_customer(shop_hash, wanted_pet_hash, customer_hash)
+#   # does the shop have the right pet?
+#
+#   if shop_hash[:pets].include?(wanted_pet_hash)
+#     # nested if - if pet available, does customer have sufficient money?
+#     if customer_hash[:cash] >= wanted_pet_hash[:price]
+#       # add pet to customer's pets list:
+#       customer_hash[:pets].push(wanted_pet_hash)
+#       # increment pets_sold count
+#       shop_hash[:admin][:pets_sold] += 1
+#       # customer spends chash:
+#       customer_hash[:cash] -= wanted_pet_hash[:price]
+#       # shops earns cash:
+#       shop_hash[:admin][:total_cash] += wanted_pet_hash[:price]
+#     else
+#       # insufficient funds
+#     end
+#   else
+#     # pet not found
+#   end
+# end
+
+
+# without repeating pre-written functions:
 
 def sell_pet_to_customer(shop_hash, wanted_pet_hash, customer_hash)
-  # does the shop have the right pet?
+  # does the shop have the right pet? (BY PET HASH NOT NAME - we have no pre-defined function for this...)
   if shop_hash[:pets].include?(wanted_pet_hash)
-    if customer_hash[:cash] >= wanted_pet_hash[:price]
-      customer_hash[:pets].push(wanted_pet_hash)
-      shop_hash[:admin][:pets_sold] += 1
-      customer_hash[:cash] -= wanted_pet_hash[:price]
-      shop_hash[:admin][:total_cash] += wanted_pet_hash[:price]
+    # nested if - if pet available, does customer have sufficient money?
+    if customer_can_afford_pet?(customer_hash, wanted_pet_hash)
+      # add pet to customer's pets list:
+      add_pet_to_customer(customer_hash, wanted_pet_hash)
+      # increment pets_sold count
+      increase_pets_sold(shop_hash, 1)
+      # customer spends cash:
+      remove_customer_cash(customer_hash, wanted_pet_hash[:price])
+      # shops earns cash:
+      add_or_remove_cash(shop_hash, wanted_pet_hash[:price])
     else
       # insufficient funds
     end
   else
     # pet not found
   end
-
 end
 
 
